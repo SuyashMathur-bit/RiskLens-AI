@@ -227,8 +227,8 @@ This project can help financial institutions:
 
 ## Repository Structure
 
-├── credit_risk_dataset.csv
+├── README.md
 
 ├── RiskLens_AI.ipynb
 
-└── README.md
+└── credit_risk_dataset.csv
