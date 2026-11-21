@@ -1,126 +1,99 @@
 # RiskLens-AI
 
-### Machine Learning-Based Credit Risk Assessment and Customer Segmentation
+### Machine Learning Credit Risk Assessment, XGBoost Default Prediction & Customer Segmentation
 
 [![Python](https://img.shields.io/badge/Python-3.11+-blue.svg)](https://www.python.org/)
 [![Scikit-Learn](https://img.shields.io/badge/Scikit--Learn-Machine%20Learning-orange.svg)](https://scikit-learn.org/)
-[![XGBoost](https://img.shields.io/badge/XGBoost-Classification-red.svg)](https://xgboost.readthedocs.io/)
+[![XGBoost](https://img.shields.io/badge/XGBoost-84%25%20Accuracy-red.svg)](https://xgboost.readthedocs.io/)
 [![Jupyter](https://img.shields.io/badge/Jupyter-Notebook-F37626.svg)](https://jupyter.org/)
 
 ---
 
-## Project Overview
+## 📌 Project Overview
 
-**RiskLens-AI** is an end-to-end Machine Learning project designed to analyze borrower profiles, identify customer segments, predict credit risk, and generate personalized financial recommendations.
-
-The project combines both **Unsupervised Learning** (K-Means Clustering) and **Supervised Learning** (Random Forest baseline and XGBoost classifier) to evaluate customer behavior and assess the likelihood of loan default.
-
-The primary objective is to help financial institutions make data-driven lending decisions while identifying high-risk borrowers and improving risk management strategies.
+**RiskLens-AI** is an end-to-end Machine Learning credit-risk intelligence pipeline built on **32,000+ loan applications**. It combines unsupervised customer segmentation and supervised gradient boosting to analyze borrower risk profiles, forecast loan default, address severe class imbalance, and automate borrower advisory.
 
 ---
 
-## Dataset
+## 🎯 Key Highlights
+
+* **32,000+ Loan Applications Pipeline:** Data cleaning, missing-value imputation, feature scaling, and feature engineering.
+* **Borrower Profile Segmentation (KMeans):** Segmented borrowers into **3 distinct behavioral clusters** based on income, credit history, and debt load.
+* **XGBoost Default Prediction:** Trained an XGBoost Classifier achieving **84% overall accuracy** and **0.75 precision on defaulters**.
+* **Class Imbalance Analysis:** Analyzed the natural lending skew (~22% defaulters vs. ~78% non-defaulters; 3.58:1 ratio) to ensure robust precision-recall evaluation.
+* **Feature Importance Analysis:** Discovered that **loan-to-income ratio** is the overwhelming primary driver of default (~61% feature importance), followed by person income (~22%).
+* **Rule-Based Recommendation Engine:** Automated credit advisory that flags loans that are disproportionately high relative to borrower income and suggests corrective actions.
+
+---
+
+## 📊 Dataset
 
 * **Source:** Credit Risk Dataset
-* **Records:** 32,000+ loan applications
+* **Records:** 32,581 loan applications
 * **File:** `credit_risk_dataset.csv.zip` (included directly in this repository)
-* **Data Type:** Structured Financial Data
-
-### Key Features
-* Person Age
-* Person Income
-* Home Ownership
-* Employment Length
-* Loan Amount
-* Loan Interest Rate
-* Loan Intent
-* Credit History Length
-* Credit Score
-* **Loan Status (Target Variable)**
+* **Target:** `loan_status` (0 = Non-defaulter, 1 = Defaulter)
+* **Key Features:**
+  - `person_income`: Annual borrower income
+  - `loan_amnt`: Total requested loan amount
+  - `loan_percent_income`: Loan-to-income ratio (primary risk driver)
+  - `cb_person_cred_hist_length`: Credit history duration in years
 
 ---
 
-## Tools & Technologies
+## 📈 Model Performance & Metrics
 
-### Python Libraries
-* Pandas, NumPy
-* Matplotlib
-* Scikit-Learn
-* XGBoost
+### XGBoost Classifier Performance
 
-### Machine Learning Techniques
-* Data Cleaning & Imputation
-* Feature Scaling (StandardScaler)
-* Train-Test Split (80% Train / 20% Test)
-* Customer Segmentation (K-Means Clustering)
-* Baseline Modeling (Random Forest Classifier)
-* Advanced Modeling (XGBoost Classifier with class weighting)
-* Feature Importance Analysis
-* Risk Categorization & Automated Advisory
+| Metric | Non-Defaulters (Class 0) | Defaulters (Class 1) | Overall / Macro |
+|---|---|---|---|
+| **Precision** | 0.86 | **0.75** | 0.80 |
+| **Recall** | 0.96 | 0.43 | 0.70 |
+| **F1-Score** | 0.91 | 0.55 | 0.73 |
+| **Accuracy** | — | — | **84.2%** |
 
----
+### Top Feature Drivers (Feature Importance)
 
-## Project Workflow
-
-1. **Data Preprocessing:** Loaded dataset, handled missing values, and performed feature scaling.
-2. **Train-Test Split:** Configured 80% training and 20% testing split (`test_size=0.2`).
-3. **Customer Segmentation (K-Means):** Clustered borrowers into financial profiles to understand behavior.
-4. **Credit Risk Modeling:**
-   * **Baseline:** Random Forest Classifier.
-   * **Advanced Model:** XGBoost Classifier with `scale_pos_weight` to address the 3.58:1 safe-to-risky class imbalance.
-5. **Evaluation & Diagnosis:** Accuracy, Precision, Recall, F1-Score, and Confusion Matrix.
-6. **Rule-Based Recommendations:** Generates actionable guidance (e.g. debt-to-income limits, building credit history).
+1. **`loan_percent_income`** (Loan-to-Income Ratio): **~61.2%**
+2. **`person_income`** (Annual Income): **~21.8%**
+3. **`loan_amnt`** (Loan Principal): **~9.9%**
+4. **`cb_person_cred_hist_length`** (Credit History Length): **~7.1%**
 
 ---
 
-## Model Evaluation
+## 💡 Recommendation Engine Logic
 
-### Evaluation Metrics
-* Accuracy Score
-* Confusion Matrix
-* Classification Report (Precision, Recall, F1-Score)
-
-### Performance Summary
-* **XGBoost Accuracy:** ~84%
-* **Precision (Risky Borrowers):** ~75%
-* **Recall (Risky Borrowers):** ~43%
-* **F1-Score:** ~55%
+The pipeline includes an automated recommendation engine that inspects applicant profiles:
+* **High Debt Burden:** Flags when loan amount exceeds 60% of annual income (`loan_amnt > 0.6 * person_income`).
+* **Credit Maturity:** Recommends credit building if credit history length is under 2 years.
+* **Risk Tiering:** Automatically stratifies predicted default probabilities into Low Risk ($p < 0.3$), Medium Risk ($0.3 \le p < 0.7$), and High Risk ($p \ge 0.7$).
 
 ---
 
-## Feature Importance Analysis
+## 🛠 Tech Stack
 
-Feature importance analysis identifies the strongest drivers of borrower risk:
-* **Loan-to-Income Ratio** (~61% importance)
-* **Person Income** (~22% importance)
-* **Loan Amount** (~10% importance)
-* **Credit History Length** (~7% importance)
+* **Language:** Python 3
+* **Libraries:** XGBoost, Scikit-Learn, Pandas, NumPy, Matplotlib
+* **Environment:** Jupyter Notebook
 
 ---
 
-## How to Run Locally
+## 🚀 How to Run Locally
 
 ```bash
+# 1. Clone repository
 git clone https://github.com/SuyashMathur-bit/RiskLens-AI.git
 cd RiskLens-AI
-pip install pandas numpy scikit-learn xgboost matplotlib
+
+# 2. Install dependencies
+pip install xgboost scikit-learn pandas numpy matplotlib
+
+# 3. Launch notebook
 jupyter notebook "RiskLens AI.ipynb"
 ```
-The notebook automatically loads `credit_risk_dataset.csv.zip` from the repository root.
+The notebook automatically loads `credit_risk_dataset.csv.zip` from the repository root via relative path.
 
 ---
 
-## Repository Structure
-
-```
-RiskLens-AI/
-├── credit_risk_dataset.csv.zip
-├── README.md
-└── RiskLens AI.ipynb
-```
-
----
-
-## Author
+## 👤 Author
 
 * **Suyash Mathur** - [SuyashMathur-bit](https://github.com/SuyashMathur-bit)
