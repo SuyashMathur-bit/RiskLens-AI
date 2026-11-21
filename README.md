@@ -2,11 +2,18 @@
 
 ### Machine Learning-Based Credit Risk Assessment and Customer Segmentation
 
+[![Python](https://img.shields.io/badge/Python-3.11+-blue.svg)](https://www.python.org/)
+[![Scikit-Learn](https://img.shields.io/badge/Scikit--Learn-Machine%20Learning-orange.svg)](https://scikit-learn.org/)
+[![XGBoost](https://img.shields.io/badge/XGBoost-Classification-red.svg)](https://xgboost.readthedocs.io/)
+[![Jupyter](https://img.shields.io/badge/Jupyter-Notebook-F37626.svg)](https://jupyter.org/)
+
+---
+
 ## Project Overview
 
-RiskLens-AI is an end-to-end Machine Learning project designed to analyze borrower profiles, identify customer segments, predict credit risk, and generate personalized financial recommendations.
+**RiskLens-AI** is an end-to-end Machine Learning project designed to analyze borrower profiles, identify customer segments, predict credit risk, and generate personalized financial recommendations.
 
-The project combines both Unsupervised Learning and Supervised Learning techniques to understand customer behavior and assess the likelihood of loan default.
+The project combines both **Unsupervised Learning** (K-Means Clustering) and **Supervised Learning** (Random Forest baseline and XGBoost classifier) to evaluate customer behavior and assess the likelihood of loan default.
 
 The primary objective is to help financial institutions make data-driven lending decisions while identifying high-risk borrowers and improving risk management strategies.
 
@@ -14,14 +21,12 @@ The primary objective is to help financial institutions make data-driven lending
 
 ## Dataset
 
-**Source:** Credit Risk Dataset
-
-**Records:** 32,000+ loan applications
-
-**Data Type:** Structured Financial Data
+* **Source:** Credit Risk Dataset
+* **Records:** 32,000+ loan applications
+* **File:** `credit_risk_dataset.csv.zip` (included directly in this repository)
+* **Data Type:** Structured Financial Data
 
 ### Key Features
-
 * Person Age
 * Person Income
 * Home Ownership
@@ -31,204 +36,91 @@ The primary objective is to help financial institutions make data-driven lending
 * Loan Intent
 * Credit History Length
 * Credit Score
-* Loan Status (Target Variable)
+* **Loan Status (Target Variable)**
 
 ---
 
 ## Tools & Technologies
 
 ### Python Libraries
-
-* Pandas
-* NumPy
+* Pandas, NumPy
 * Matplotlib
 * Scikit-Learn
 * XGBoost
 
 ### Machine Learning Techniques
-
-* Data Cleaning
-* Feature Engineering
-* Data Normalization
-* KMeans Clustering
-* Random Forest Classification
-* XGBoost Classification
+* Data Cleaning & Imputation
+* Feature Scaling (StandardScaler)
+* Train-Test Split (80% Train / 20% Test)
+* Customer Segmentation (K-Means Clustering)
+* Baseline Modeling (Random Forest Classifier)
+* Advanced Modeling (XGBoost Classifier with class weighting)
 * Feature Importance Analysis
-* Risk Categorization
-* Model Evaluation
+* Risk Categorization & Automated Advisory
 
 ---
 
 ## Project Workflow
 
-### Data Preprocessing
-
-* Loaded and explored dataset
-* Checked missing values
-* Removed inconsistencies
-* Handled categorical features
-* Performed feature scaling using StandardScaler
-
----
-
-### Customer Segmentation (KMeans Clustering)
-
-Applied KMeans Clustering to group borrowers into similar financial profiles.
-
-#### Objectives
-
-* Discover borrower segments
-* Analyze financial behavior patterns
-* Understand income and loan characteristics
-* Support personalized recommendations
-
----
-
-### Cluster Analysis
-
-Generated cluster summaries using group statistics.
-
-Analyzed:
-
-* Average Income
-* Average Loan Amount
-* Average Credit Score
-* Average Savings Behavior
-* Spending Patterns
-
----
-
-### Risk Recommendation Engine
-
-Created a rule-based recommendation system to provide financial suggestions such as:
-
-* Reducing loan burden
-* Improving savings habits
-* Increasing creditworthiness
-* Managing debt-to-income ratio
-
----
-
-### Credit Risk Prediction
-
-Built supervised learning models to predict borrower risk.
-
-#### Models Implemented
-
-##### Random Forest Classifier
-
-Used as a baseline ensemble model.
-
-##### XGBoost Classifier
-
-Used for advanced risk prediction and performance comparison.
+1. **Data Preprocessing:** Loaded dataset, handled missing values, and performed feature scaling.
+2. **Train-Test Split:** Configured 80% training and 20% testing split (`test_size=0.2`).
+3. **Customer Segmentation (K-Means):** Clustered borrowers into financial profiles to understand behavior.
+4. **Credit Risk Modeling:**
+   * **Baseline:** Random Forest Classifier.
+   * **Advanced Model:** XGBoost Classifier with `scale_pos_weight` to address the 3.58:1 safe-to-risky class imbalance.
+5. **Evaluation & Diagnosis:** Accuracy, Precision, Recall, F1-Score, and Confusion Matrix.
+6. **Rule-Based Recommendations:** Generates actionable guidance (e.g. debt-to-income limits, building credit history).
 
 ---
 
 ## Model Evaluation
 
-Evaluation Metrics:
-
+### Evaluation Metrics
 * Accuracy Score
 * Confusion Matrix
-* Precision
-* Recall
-* F1-Score
-* Classification Report
+* Classification Report (Precision, Recall, F1-Score)
 
-### XGBoost Performance
-
-* Accuracy: ~84%
-* Precision (Risky Borrowers): 75%
-* Recall (Risky Borrowers): 43%
-* F1 Score: 55%
-
-The dataset contains approximately:
-
-* Safe Borrowers: 25,473
-* Risky Borrowers: 7,108
-
-This class imbalance was considered during model evaluation and interpretation.
+### Performance Summary
+* **XGBoost Accuracy:** ~84%
+* **Precision (Risky Borrowers):** ~75%
+* **Recall (Risky Borrowers):** ~43%
+* **F1-Score:** ~55%
 
 ---
 
 ## Feature Importance Analysis
 
-Feature importance was used to identify the strongest drivers of borrower risk.
-
-Examples:
-
-* Credit Score
-* Loan-to-Income Ratio
-* Income Level
-* Loan Amount
-* Credit History Length
-
-This helps explain model decisions and improves interpretability.
+Feature importance analysis identifies the strongest drivers of borrower risk:
+* **Loan-to-Income Ratio** (~61% importance)
+* **Person Income** (~22% importance)
+* **Loan Amount** (~10% importance)
+* **Credit History Length** (~7% importance)
 
 ---
 
-## Visualizations
+## How to Run Locally
 
-The project includes:
-
-### Exploratory Analysis
-
-* Income Distribution
-* Loan Amount Distribution
-* Credit Score Analysis
-
-### Clustering Visualizations
-
-* Customer Segment Distribution
-* Cluster Comparison Charts
-
-### Model Evaluation Visualizations
-
-* Actual vs Predicted Results
-* Feature Importance Bar Chart
-* Confusion Matrix
-
----
-
-## Key Insights
-
-* Credit Score is a major indicator of borrower risk.
-* Loan-to-Income Ratio significantly affects repayment behavior.
-* Customer segmentation reveals distinct borrower profiles.
-* XGBoost outperformed the baseline model.
-* Class imbalance affects recall for risky borrowers.
-
----
-
-## Business Impact
-
-This project can help financial institutions:
-
-* Identify high-risk applicants
-* Improve lending decisions
-* Reduce default risk
-* Understand customer segments
-* Support personalized financial recommendations
-* Improve portfolio risk management
-
----
-
-## Future Improvements
-
-* Hyperparameter Optimization
-* SMOTE for Class Balancing
-* ROC-AUC Analysis
-* Model Deployment with Flask/FastAPI
-* Real-Time Prediction Dashboard
-* Deep Learning-Based Risk Prediction
+```bash
+git clone https://github.com/SuyashMathur-bit/RiskLens-AI.git
+cd RiskLens-AI
+pip install pandas numpy scikit-learn xgboost matplotlib
+jupyter notebook "RiskLens AI.ipynb"
+```
+The notebook automatically loads `credit_risk_dataset.csv.zip` from the repository root.
 
 ---
 
 ## Repository Structure
 
+```
+RiskLens-AI/
+├── credit_risk_dataset.csv.zip
 ├── README.md
+└── RiskLens AI.ipynb
+```
 
-├── RiskLens_AI.ipynb
+---
 
-└── credit_risk_dataset.csv
+## Author
+
+* **Suyash Mathur** - [SuyashMathur-bit](https://github.com/SuyashMathur-bit)
